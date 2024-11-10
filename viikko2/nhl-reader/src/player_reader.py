@@ -14,3 +14,14 @@ class PlayerReader:
             players.append(player)
 
         return players
+
+    def get_nationalities(self):
+        response = requests.get(self._url).json()
+        nationalities = []
+
+        for player_dict in response:
+            player = Player(player_dict)
+            if player.nationality not in nationalities:
+                nationalities.append(player.nationality)
+
+        return nationalities
