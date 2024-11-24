@@ -4,3 +4,4 @@ Start, Stop, Continue, More of and Less of Wheel -tekniikassa on viisi kategoria
 
 Glad, Sad, Mad -tekniikassa keskustellaan taas positiivisista, negatiivisista ja turhauttavista asioista. Tässä retrospektiivitekniikassa havainnot kirjoitetaan ensin korteille, kategorisoidaan kortit, äänestetään tärkeimmät kortit keskusteltavaksi ja sitten vasta keskustellaan valituista aiheista. Tämän tekniikan mukaisesti tehty retrospektiivi voi taas kestää jopa 60 minuuttia. 
 
+
