@@ -14,12 +14,12 @@ class Kayttoliittyma:
     def __init__(self, sovelluslogiikka, root):
         self._sovelluslogiikka = sovelluslogiikka
         self._root = root
+        self._viimeisin_komento = None
 
         self._komennot = {
             Komento.SUMMA: Summa(sovelluslogiikka, self._lue_syote),
             Komento.EROTUS: Erotus(sovelluslogiikka, self._lue_syote),
             Komento.NOLLAUS: Nollaus(sovelluslogiikka, self._lue_syote)
-            # Komento.KUMOA: Kumoa(sovelluslogiikka, self._lue_syote) # ei ehkä tarvita täällä...
         }
 
     def kaynnista(self):
@@ -66,10 +66,16 @@ class Kayttoliittyma:
         return self._syote_kentta.get()
 
     def _suorita_komento(self, komento):
-        komento_olio = self._komennot[komento]
-        komento_olio.suorita()
+        if komento == Komento.KUMOA and self._viimeisin_komento is not None:
+            self._viimeisin_komento.kumoa()
+            self._viimeisin_komento = None
+            self._kumoa_painike["state"] = constants.DISABLED
+        else:
+            komento_olio = self._komennot[komento]
+            komento_olio.suorita()
+            self._viimeisin_komento = komento_olio
 
-        self._kumoa_painike["state"] = constants.NORMAL
+            self._kumoa_painike["state"] = constants.NORMAL
 
         if self._sovelluslogiikka.arvo() == 0:
             self._nollaus_painike["state"] = constants.DISABLED

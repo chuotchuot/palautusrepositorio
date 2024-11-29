@@ -1,21 +1,22 @@
 from abc import ABC, abstractmethod
-from sovelluslogiikka import Sovelluslogiikka
 
 class Komento(ABC):
     def __init__(self, sovelluslogiikka, lue_syote):
         self._sovelluslogiikka = sovelluslogiikka
         self._lue_syote = lue_syote
+        self._tila_ennen_kumoamista = None
 
     @abstractmethod
     def suorita(self):
         pass
 
-class Summa(Komento):
-    def __init__(self, sovelluslogiikka, lue_syote):
-        self._sovelluslogiikka = sovelluslogiikka
-        self._lue_syote = lue_syote
+    def kumoa(self):
+        if self._tila_ennen_kumoamista is not None:
+            self._sovelluslogiikka.aseta_arvo(self._tila_ennen_kumoamista)
 
+class Summa(Komento):
     def suorita(self):
+        self._tila_ennen_kumoamista = self._sovelluslogiikka.arvo()
         arvo = 0
 
         try:
@@ -25,11 +26,8 @@ class Summa(Komento):
         self._sovelluslogiikka.plus(arvo)
 
 class Erotus(Komento):
-    def __init__(self, sovelluslogiikka, lue_syote):
-        self._sovelluslogiikka = sovelluslogiikka
-        self._lue_syote = lue_syote
-
     def suorita(self):
+        self._tila_ennen_kumoamista = self._sovelluslogiikka.arvo()
         arvo = 0
 
         try:
@@ -38,20 +36,12 @@ class Erotus(Komento):
             pass
         self._sovelluslogiikka.miinus(arvo)
         
-        
 class Nollaus(Komento):
-    def __init__(self, sovelluslogiikka, lue_syote):
-        self._sovelluslogiikka = sovelluslogiikka
-        self._lue_syote = lue_syote
-
     def suorita(self):
+        self._tila_ennen_kumoamista = self._sovelluslogiikka.arvo()
+
         self._sovelluslogiikka.nollaa()
         
-        
 class Kumoa(Komento):
-    def __init__(self, sovelluslogiikka, lue_syote):
-        self._sovelluslogiikka = sovelluslogiikka
-        self._lue_syote = lue_syote
-
     def suorita(self):
         pass
